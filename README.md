@@ -17,8 +17,8 @@ Consultar duas APIs públicas do setor de energias renováveis e resolver duas t
 |---|---|
 | `CP2_Energias_Renovaveis.ipynb` | Notebook completo, já executado, com análise, modelos, métricas, gráficos e interpretação |
 | `aneel_classificacao_orange.csv`, `meteo_regressao_orange.csv` | CSVs gerados pelas APIs |
-| `meteo_treino_orange.csv`, `meteo_teste_orange.csv` | Divisão temporal 80/20 (800 / 201 linhas) para o Test & Score do Orange |
-| `Fluxos_para_Classificacao_e_Regressao.ows` | Fluxo do Orange |
+| `meteo_treino_orange.csv`, `meteo_teste_orange.csv` | Divisão temporal 80/20 (800 / 201 linhas) da Tarefa 2, a mesma usada no notebook, disponível para reproduzir a comparação em outras ferramentas |
+| `Fluxos_para_Classificacao_e_Regressao.ows` | Fluxo do Orange com as duas tarefas (material complementar; a avaliação principal está no notebook) |
 
 ## Como executar
 1. Clone o repositório.
@@ -47,9 +47,6 @@ Consultar duas APIs públicas do setor de energias renováveis e resolver duas t
 
 ## Conclusões
 
-**Classificação.** O Random Forest foi o melhor (Accuracy ≈ 97,6%), seguido de perto pelo KNN; a Regressão Logística ficou em ≈ 82% por usar fronteiras lineares em um problema não linear. A maior confusão da Regressão Logística é Solar prevista como Eólica; nos outros dois modelos, o erro mais frequente envolve Solar e Hidráulica. Limitações: a potência outorgada não é energia gerada e o cadastro mistura empreendimentos em fases diferentes; há coordenadas ausentes (valor 0) e muitas usinas solares com potência de 1 kW ou menos (provável valor padrão); e, como parques eólicos e complexos hidráulicos têm várias unidades muito próximas, a divisão aleatória favorece KNN e Random Forest, então a acurácia provavelmente é otimista para locais novos. Remover as 28 linhas duplicadas não alterou os resultados.
+**Classificação.** O Random Forest foi o melhor (Accuracy ≈ 97,6%), seguido de perto pelo KNN; a Regressão Logística ficou em ≈ 82% por usar fronteiras lineares em um problema não linear. A maior confusão da Regressão Logística é Solar prevista como Eólica; nos outros dois modelos, o erro mais frequente envolve Solar e Hidráulica. Limitações: a potência outorgada não é energia gerada e o cadastro mistura empreendimentos em fases diferentes; há coordenadas ausentes (valor 0) e muitas usinas solares com potência de 1 kW ou menos (provável valor padrão); e, como parques eólicos e complexos hidráulicos têm várias unidades muito próximas, a divisão aleatória favorece KNN e Random Forest, então a acurácia provavelmente é otimista para locais novos. Remover as 28 linhas duplicadas quase não alterou os resultados.
 
 **Regressão.** O Random Forest foi o melhor (R² ≈ 0,85; erro médio de ≈ 66 W/m² para uma radiação média de ≈ 470 W/m²). A Regressão Linear (R² ≈ 0,36) não representa o ciclo diário, que tem forma de sino, e chega a prever radiação negativa. A **hora** é a variável mais importante (cerca de metade da importância no Random Forest), pois define a altura do sol e o teto de radiação; nuvens, umidade e temperatura modulam esse valor. Estimar radiação **não equivale a prever geração elétrica**, que depende também de área e eficiência dos painéis, temperatura de operação, inclinação, sombreamento, perdas no inversor e na rede e cortes de operação. Os dados são de reanálise, de um único local e de três meses, e o teste cobre só o fim de junho.
-
-## Atividade complementar no Orange
-> **A preencher pelo aluno:** abra `Fluxos_para_Classificacao_e_Regressao.ows` no Orange, execute os fluxos, salve capturas de tela legíveis (`orange_classificacao.png`, `orange_regressao.png`) neste repositório e escreva aqui uma breve análise dos três resultados de cada tarefa, informando algoritmos, métricas e procedimento de avaliação (na regressão, use `meteo_treino_orange.csv` como treino e `meteo_teste_orange.csv` como conjunto de teste separado no Test & Score). Os números do Orange só serão idênticos aos do notebook se as divisões e os hiperparâmetros forem equivalentes.
